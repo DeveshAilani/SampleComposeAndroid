@@ -30,6 +30,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -53,54 +56,37 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.samplecompose.ui.theme.SampleComposeTheme
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val fontFamily = FontFamily(
-                Font(R.font.borel_regular, FontWeight.Normal),
-                Font(R.font.edu_bold, FontWeight.Bold),
-                Font(R.font.edu_regular, FontWeight.Normal),
-                Font(R.font.edu_medium, FontWeight.Medium)
+            ColorBox(
+                modifier = Modifier.fillMaxSize()
             )
+        }
+    }
+}
 
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color(0xFF101010))
-            ) {
-                Text(
-                    // text = "Jetpack Compose",
-                    text = buildAnnotatedString {
-                        withStyle(
-                            style = SpanStyle(
-                                color = Color.Green,
-                                fontSize = 50.sp
-                            )
-                        ) {
-                                   append("J")
-                        }
-                        append("etpack")
-                        withStyle(
-                            style = SpanStyle(
-                                color = Color.Green,
-                                fontSize = 50.sp
-                            )
-                        ) {
-                            append("C")
-                        }
-                        append("ompose")
-                    },
-                    color = Color.White,
-                    fontSize = 30.sp,
-                    fontFamily = fontFamily,
-                    fontWeight = FontWeight.Bold,
-                    fontStyle = FontStyle.Italic,
-                    textAlign = TextAlign.Center,
-                    textDecoration = TextDecoration.Underline
+@Composable
+fun ColorBox(modifier: Modifier = Modifier) {
+    val color = remember {
+        mutableStateOf(Color.Yellow)
+    }
+
+    Box(
+        modifier = modifier
+            .background(color.value)
+            .clickable {
+                color.value = Color(
+                    Random.nextFloat(),
+                    Random.nextFloat(),
+                    Random.nextFloat(),
+                    alpha = 1f
                 )
             }
-        }
+    ) {
+
     }
 }
